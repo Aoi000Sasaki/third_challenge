@@ -1,9 +1,9 @@
-#include "first_challenge/first_challenge.hpp"
+#include "third_challenge/third_challenge.hpp"
 
 int main(int argc, char *argv[])
 {
   rclcpp::init(argc, argv);
-  std::shared_ptr<FirstChallenge> fchallenge = std::make_shared<FirstChallenge>();
+  std::shared_ptr<thirdChallenge> fchallenge = std::make_shared<thirdChallenge>();
   rclcpp::Rate loop_rate(fchallenge->hz_);
 
   // rclcpp::ok()によりCtrl+C押すまでプロセスを継続する

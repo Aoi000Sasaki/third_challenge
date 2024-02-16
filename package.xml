@@ -2,7 +2,7 @@
 <package format="3">
   <name>third_challenge</name>
   <version>0.0.0</version>
-  <discription>The third_challenge package</discription>
+  <description>The third_challenge package</description>
   <maintainer email="amsl@todo.todo">user</maintainer>
   <license>todo</license>
 

@@ -1,6 +1,6 @@
-#include "first_challenge/first_challenge.hpp"
+#include "third_challenge/third_challenge.hpp"
 
-FirstChallenge::FirstChallenge() : Node("first_challenge")
+thirdChallenge::thirdChallenge() : Node("third_challenge")
 {
     hz_ = this->declare_parameter<int>("hz", 10);
     goal_dist_ = this->declare_parameter<double>("goal_dist", 1.0);
@@ -10,7 +10,7 @@ FirstChallenge::FirstChallenge() : Node("first_challenge")
     // <subscriber名> = this->create_subscription<<msg型>>("<topic名>", rclcpp::QoS(<確保するtopicサイズ>).reliable(), std::bind(&<class名>::<コールバック関数名>, this, std::placeholders::_<何番目の引数か>));
     // std::bindを使ってsubするコールバック関数，std::placeholdersを使ってその関数内での引数を指定する
     // std::placeholdersで指定する引数は大体1番目のもの（コールバック関数の引数が1つであるため）
-    odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>("/odom", rclcpp::QoS(1).reliable(), std::bind(&FirstChallenge::odometry_callback, this, std::placeholders::_1));
+    odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>("/odom", rclcpp::QoS(1).reliable(), std::bind(&thirdChallenge::odometry_callback, this, std::placeholders::_1));
 
     // publisher
     // <publisher名> = this->create_publisher<<msg型>>("<topic名>", rclcpp::QoS(<確保するtopicサイズ>).reliable());
@@ -18,14 +18,14 @@ FirstChallenge::FirstChallenge() : Node("first_challenge")
 }
 
 // odomのコールバック関数
-void FirstChallenge::odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
+void thirdChallenge::odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg)
 {
     odom_ = *msg;
 }
 
 // センサ情報（今回はodom）を取得できているかの確認用
 // センサ情報取得前にアクセスしようとするとセグメンテーションフォルトが起こり，core dump（プロセス終了）する
-bool FirstChallenge::can_move()
+bool thirdChallenge::can_move()
 {
     // odom_はoptional型で定義しているため，has_value()が使える
     // optional型のhas_value()では，値を取得できた場合はtrue，取得できなかった場合はfalseを返す
@@ -35,7 +35,7 @@ bool FirstChallenge::can_move()
 // 終了判定
 // roombaが一定以上の距離を進んだら終了
 // ゴールするまでtrueを返す
-bool FirstChallenge::is_goal()
+bool thirdChallenge::is_goal()
 {
     const double dist = calc_distance();
 
@@ -46,7 +46,7 @@ bool FirstChallenge::is_goal()
 }
 
 // 進んだ距離を計算
-double FirstChallenge::calc_distance()
+double thirdChallenge::calc_distance()
 {
     // optional型で定義したmsgの値を取得したい場合は.value()を変数名の直後に追記
     // optional型のvalue()は有効値への参照を返す
@@ -54,7 +54,7 @@ double FirstChallenge::calc_distance()
 }
 
 // roombaの制御入力を決定
-void FirstChallenge::run(float velocity, float omega)
+void thirdChallenge::run(float velocity, float omega)
 {
     // roombaの制御モード
     // 基本的に11（DRIVE_DIRECT）固定で良い
@@ -69,7 +69,7 @@ void FirstChallenge::run(float velocity, float omega)
 }
 
 // 並進速度と旋回速度を計算
-void FirstChallenge::set_cmd_vel()
+void thirdChallenge::set_cmd_vel()
 {
     if(is_goal())
     {

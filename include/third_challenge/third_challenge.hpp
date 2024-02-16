@@ -1,5 +1,5 @@
-#ifndef FIRST_CHALLENGE_HPP
-#define FIRST_CHALLENGE_HPP
+#ifndef third_CHALLENGE_HPP
+#define third_CHALLENGE_HPP
 
 #include <rclcpp/rclcpp.hpp>
 #include <functional>  // bind & placeholders用
@@ -9,10 +9,10 @@
 #include <nav_msgs/msg/odometry.hpp>
 #include "roomba_500driver_meiji/msg/roomba_ctrl.hpp"
 
-class FirstChallenge : public rclcpp::Node
+class thirdChallenge : public rclcpp::Node
 {
     public:
-        FirstChallenge();
+        thirdChallenge();
         void process();
 
         // コールバック関数
@@ -38,4 +38,4 @@ class FirstChallenge : public rclcpp::Node
 };
 
 
-#endif  // FIRST_CHALLENGE_HPP
+#endif  // third_CHALLENGE_HPP
