@@ -1,6 +1,7 @@
 <launch>
     <!-- node -->
     <node pkg="third_challenge" exec="third_challenge_node" name="third_challenge_node">
-        <param name="frontal_threshold" value="0.15"/>
-        <param name="max_omega" value="0.2"/>
+        <param name="frontal_threshold" value="0.2"/>
+        <param name="max_omega" value="0.6"/>
+    </node>
 </launch>
