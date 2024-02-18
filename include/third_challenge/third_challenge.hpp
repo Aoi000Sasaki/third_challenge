@@ -1,41 +1,33 @@
-#ifndef third_CHALLENGE_HPP
-#define third_CHALLENGE_HPP
+#ifndef THIRD_CHALLENGE_HPP
+#define THIRD_CHALLENGE_HPP
 
 #include <rclcpp/rclcpp.hpp>
 #include <functional>  // bind & placeholders用
 #include <memory>      // SharedPtr用
-#include <optional>    // has_value()用
-
-#include <nav_msgs/msg/odometry.hpp>
+#include <image_geometry/pinhole_camera_model.h>
+#include "std_msgs/msg/float32_multi_array.hpp"
+#include "sensor_msgs/msg/laser_scan.hpp"
+#include "sensor_msgs/msg/camera_info.hpp"
 #include "roomba_500driver_meiji/msg/roomba_ctrl.hpp"
 
 class thirdChallenge : public rclcpp::Node
 {
     public:
         thirdChallenge();
-        void process();
 
-        // コールバック関数
-        void odometry_callback(const nav_msgs::msg::Odometry::SharedPtr msg);
-
-        // 関数
-        bool can_move();                        // センサ情報（今回はodom）を取得できているかの確認用
-        bool is_goal();                         // 終了判定
-        double calc_distance();                 // 進んだ距離を計算
-        void run(float velocity, float omega);  // roombaの制御入力を決定
-        void set_cmd_vel();                     // 並進速度と旋回速度を計算
-
-        // 変数
-        int hz_ = 10;
-        double goal_dist_ = 0.0;
-        double velocity_ = 0.0;
-        std::optional<nav_msgs::msg::Odometry> odom_;  // optional型で定義することによりodomをsubできたかの判定も同時に行う
+        void box_callback(const std_msgs::msg::Float32MultiArray& msg);
+        void camera_info_callback(const sensor_msgs::msg::CameraInfo& msg);
+    private:
+        rclcpp::Subscription<std_msgs::msg::Float32MultiArray>::SharedPtr sub_box_;
+        rclcpp::Subscription<sensor_msgs::msg::CameraInfo>::SharedPtr sub_camera_info_;
+        rclcpp::Publisher<roomba_500driver_meiji::msg::RoombaCtrl>::SharedPtr cmd_vel_pub_;
+        image_geometry::PinholeCameraModel camera_model_;
         roomba_500driver_meiji::msg::RoombaCtrl cmd_vel_;
+        bool is_model_set = false;
 
-        // Pub & Sub
-        rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;                  // odom
-        rclcpp::Publisher<roomba_500driver_meiji::msg::RoombaCtrl>::SharedPtr cmd_vel_pub_;  // 制御入力
+        int mode = 11;
+        double frontal_threshold = 0.15;
+        double max_omega = 0.2;
 };
 
-
-#endif  // third_CHALLENGE_HPP
+#endif  // THIRD_CHALLENGE_HPP
