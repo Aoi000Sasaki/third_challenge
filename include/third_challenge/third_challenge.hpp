@@ -4,6 +4,7 @@
 #include <rclcpp/rclcpp.hpp>
 #include <functional>  // bind & placeholders用
 #include <memory>      // SharedPtr用
+#include <cmath> // 要らないかも
 #include <image_geometry/pinhole_camera_model.h>
 #include "std_msgs/msg/float32_multi_array.hpp"
 #include "sensor_msgs/msg/laser_scan.hpp"
@@ -11,6 +12,8 @@
 #include "roomba_500driver_meiji/msg/roomba_ctrl.hpp"
 #include "tf2_ros/transform_listener.h"
 #include "tf2_ros/buffer.h"
+#include "tf2_geometry_msgs/tf2_geometry_msgs.hpp"
+#include "tf2/utils.h"
 
 class thirdChallenge : public rclcpp::Node
 {
@@ -35,7 +38,7 @@ class thirdChallenge : public rclcpp::Node
 
         int mode = 11;
         double frontal_threshold;
-        double max_omega;
+        double base_omega;
 };
 
 #endif  // THIRD_CHALLENGE_HPP
